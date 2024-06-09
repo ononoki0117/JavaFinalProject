@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>로그인</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 기존 CSS 코드 */
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            top: 0;
+            width: 100%;
+            margin-bottom: 30px;
+        }
+
+        #store-name-container {
+            margin-left: 20px;
+        }
+
+        #store-name {
+            font-size: 24px;
+            margin: 0;
+            font-weight: bold;
+            color: #fff;
+            text-decoration: none;
+        }
+
+        #user-actions {
+            margin-right: 20px;
+        }
+
+        #user-actions a {
+            color: #fff;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        /* 새로운 스타일 추가 */
+        #login-form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #fff;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #login-form h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        #login-form div {
+            margin-bottom: 15px;
+        }
+
+        #login-form label {
+            display: block;
+            margin-bottom: 5px;
+            font-weight: bold;
+        }
+
+        #login-form input[type="text"],
+        #login-form input[type="password"] {
+            width: calc(100% - 22px);
+            padding: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        #login-form button {
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+<th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
+
+<div id="login-form">
+    <h2>로그인</h2>
+    <form action="login" method="post">
+        <div>
+            <label for="username">아이디:</label>
+            <input type="text" id="username" name="username" required>
+        </div>
+        <div>
+            <label for="password">비밀번호:</label>
+            <input type="password" id="password" name="password" required>
+        </div>
+        <button type="submit" id="login-button">로그인</button>
+    </form>
+    <p>아직 회원이 아니신가요? <a href="/signup">회원가입</a></p>
+</div>
+
+<th:block th:replace="~{layouts/footer :: footer}"></th:block>
+
+</body>
+</html>

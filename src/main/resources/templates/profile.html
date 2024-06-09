@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>프로필 수정</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 추가한 CSS 스타일 */
+        #profile-form {
+            max-width: 400px;
+            margin: 50px auto;
+            padding: 20px;
+            border-radius: 10px;
+            background-color: #f8f8f8;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        #profile-form img {
+            display: block;
+            margin: 0 auto 20px;
+            border-radius: 50%;
+            width: 200px;
+            height: 200px;
+            object-fit: cover;
+        }
+
+        #profile-form div {
+            margin-bottom: 10px;
+        }
+
+        #profile-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        #profile-form input[type="text"],
+        #profile-form select {
+            width: 100%;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ddd;
+        }
+
+        #profile-form button {
+            display: block;
+            width: 100%;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 추가 -->
+    <header>
+        <div id="store-name-container">
+            <a href="main.html" id="store-name">멍냥스토어</a>
+        </div>
+        <div id="user-actions">
+            <a href="index.html">로그아웃</a>
+        </div>
+    </header>
+
+    <!-- 프로필 수정 폼 -->
+    <div id="profile-form">
+        <h2>프로필 수정</h2>
+        <img src="images/pet.jpg" alt="반려동물 사진" id="pet-photo">
+        <div>
+            <label for="pet-name">이름</label>
+            <input type="text" id="pet-name" value="멍멍이">
+        </div>
+        <div>
+            <label for="pet-age">나이</label>
+            <input type="text" id="pet-age" value="3살">
+        </div>
+        <div>
+            <label for="pet-gender">성별</label>
+            <select id="pet-gender">
+                <option value="수컷" selected>수컷</option>
+                <option value="암컷">암컷</option>
+            </select>
+        </div>
+        <button id="save-button">저장하기</button>
+    </div>
+
+    <!-- 푸터 추가 -->
+    <footer>
+        <p>&copy; 2024 멍냥스토어</p>
+    </footer>
+
+    <script>
+        // 저장 버튼 클릭 시
+        document.getElementById('save-button').addEventListener('click', function() {
+            const petName = document.getElementById('pet-name').value;
+            const petAge = document.getElementById('pet-age').value;
+            const petGender = document.getElementById('pet-gender').value;
+
+            localStorage.setItem('petName', petName);
+            localStorage.setItem('petAge', petAge);
+            localStorage.setItem('petGender', petGender);
+
+            alert('프로필이 저장되었습니다!');
+            window.location.href = 'main.html';
+        });
+
+        // 로컬 스토리지에서 값 로드
+        window.addEventListener('load', function() {
+            if (localStorage.getItem('petName')) {
+                document.getElementById('pet-name').value = localStorage.getItem('petName');
+            }
+            if (localStorage.getItem('petAge')) {
+                document.getElementById('pet-age').value = localStorage.getItem('petAge');
+            }
+            if (localStorage.getItem('petGender')) {
+                document.getElementById('pet-gender').value = localStorage.getItem('petGender');
+            }
+        });
+    </script>
+</body>
+</html>

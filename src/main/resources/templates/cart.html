@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>장바구니</title>
+    <!-- CSS 파일 링크 -->
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        /* 추가된 CSS */
+        #cart {
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 20px;
+        }
+
+        .cart-items {
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            padding: 10px;
+            margin-bottom: 20px;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            padding: 10px 0;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .item-name {
+            flex-grow: 1;
+        }
+
+        .item-price {
+            flex-shrink: 0;
+        }
+
+        #checkout-button {
+            display: block;
+            margin: 0 auto;
+            padding: 10px 20px;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            text-decoration: none;
+            transition: background-color 0.3s ease;
+            width: 200px;
+            text-align: center;
+        }
+
+        #checkout-button:hover {
+            background-color: #222;
+        }
+
+        /* 추가된 스타일 */
+        #total-price {
+            text-align: right;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- 헤더 부분 -->
+    <header>
+        <div id="store-name-container">
+            <a href="index.html" id="store-name">멍냥스토어</a>
+        </div>
+        <div id="user-actions">
+            <!-- 로그아웃 링크 -->
+            <a href="logout.html">로그아웃</a>
+        </div>
+    </header>
+
+    <!-- 장바구니 내용 부분 -->
+    <section id="cart">
+        <!-- 장바구니에 담긴 제품들 목록 -->
+        <div class="cart-items">
+            <!-- 제품 1 -->
+            <div class="cart-item">
+                <span class="item-name">강아지용 쿠션 침대</span>
+                <span class="item-price">₩50,000</span>
+            </div>
+            <!-- 제품 2 -->
+            <div class="cart-item">
+                <span class="item-name">고양이 츄르 그릇</span>
+                <span class="item-price">₩20,000</span>
+            </div>
+            <!-- 제품 3 -->
+            <div class="cart-item">
+                <span class="item-name">강아지 장난감</span>
+                <span class="item-price">₩15,000</span>
+            </div>
+            <!-- 제품 4 -->
+            <div class="cart-item">
+                <span class="item-name">고양이 캣타워</span>
+                <span class="item-price">₩50,000</span>
+            </div>
+        </div>
+
+        <!-- 총 가격 -->
+        <div id="total-price">총 가격: <span id="total">₩0</span></div>
+
+        <!-- 결제하기 버튼 -->
+        <a href="pay.html" id="checkout-button">결제하기</a>
+    </section>
+
+    <!-- 푸터 부분 -->
+    <footer>
+        <p>&copy; 2024 멍냥스토어</p>
+    </footer>
+
+    <!-- JavaScript 코드 -->
+    <script>
+        // JavaScript를 사용하여 총 가격 계산
+        document.addEventListener('DOMContentLoaded', function() {
+            const itemPrices = document.querySelectorAll('.item-price');
+            let totalPrice = 0;
+
+            // 각 제품 가격을 가져와서 총 가격에 합산
+            itemPrices.forEach(function(item) {
+                const price = parseInt(item.textContent.slice(1).replace(',', '')); // 숫자로 변환
+                totalPrice += price;
+            });
+
+            // 총 가격을 HTML에 표시
+            document.getElementById('total').textContent = '₩' + totalPrice.toLocaleString(); // 통화 형식으로 변환하여 표시
+        });
+    </script>
+</body>
+</html>

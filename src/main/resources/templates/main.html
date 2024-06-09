@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>멍냥스토어</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        #pet-info {
+            text-align: center;
+            margin-top: 50px;
+        }
+
+        #pet-info img {
+            border-radius: 50%;
+            width: 200px; /* 사이즈 키움 */
+            height: 200px; /* 사이즈 키움 */
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+
+        #pet-info .pet-details {
+            background-color: #f8f8f8;
+            padding: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            max-width: 300px;
+            margin: 0 auto;
+        }
+
+        #pet-info h2 {
+            margin-bottom: 20px;
+        }
+
+        #pet-info p {
+            margin: 10px 0;
+        }
+
+        #edit-profile-button {
+            display: center;
+            width: 50%;
+            padding: 10px;
+            border-radius: 5px;
+            background-color: #333;
+            color: white;
+            border: none;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+    </style>
+</head>
+<body>
+    <header>
+        <div id="store-name-container">
+            <a href="main.html" id="store-name">멍냥스토어</a>
+        </div>
+        <div id="user-actions">
+            <a href="index.html" id="logout-button">로그아웃</a>
+            <input type="text" id="search" placeholder="검색">
+            <button id="search-button">검색</button>
+        </div>
+    </header>
+    
+    <section id="products">
+        <div class="product-column">
+            <a href="product1.html" class="product" data-name="강아지용 쿠션 침대">
+                <img src="images/product1.jpg" alt="제품 1">
+                <div class="product-info">
+                    <h3>강아지용 쿠션 침대</h3>
+                    <p class="price">가격: 30,000원</p>
+                </div>
+            </a>
+            <a href="product2.html" class="product" data-name="고양이 츄르 그릇">
+                <img src="images/product2.jpg" alt="제품 2">
+                <div class="product-info">
+                    <h3>고양이 츄르 그릇</h3>
+                    <p class="price">가격: 20,000원</p>
+                </div>
+            </a>
+            <a href="product3.html" class="product" data-name="강아지 장난감">
+                <img src="images/product3.jpg" alt="제품 3">
+                <div class="product-info">
+                    <h3>강아지 장난감</h3>
+                    <p class="price">가격: 15,000원</p>
+                </div>
+            </a>
+            <a href="product4.html" class="product" data-name="고양이 캣타워">
+                <img src="images/product4.jpg" alt="제품 4">
+                <div class="product-info">
+                    <h3>고양이 캣타워</h3>
+                    <p class="price">가격: 50,000원</p>
+                </div>
+            </a>
+            <a href="product5.html" class="product" data-name="강아지 간식">
+                <img src="images/product5.jpg" alt="제품 5">
+                <div class="product-info">
+                    <h3>강아지 간식</h3>
+                    <p class="price">가격: 10,000원</p>
+                </div>
+            </a>
+        </div>
+    </section>
+
+    <section id="pet-info">
+        <div class="pet-details">
+            <h2>반려동물 정보</h2>
+            <img src="images/pet.jpg" alt="반려동물 사진">
+            <p>이름: 멍멍이</p>
+            <p>나이: 3살</p>
+            <p>성별: 수컷</p>
+            <br> <!-- 줄 간격을 넓히는 빈 줄 삽입 -->
+            <a id="edit-profile-button" href="profile.html" style="text-decoration: none;">프로필 수정하기</a>
+
+        </div>
+    </section>
+
+    <footer>
+        <p>&copy; 2024 멍냥스토어</p>
+    </footer>
+</body>
+</html>
+
+<script>
+
+    document.getElementById('edit-profile-button').addEventListener('click', function() {
+        window.location.href = 'profile.html';
+    });    
+
+
+    // 페이지 로드 시 localStorage에 방문 여부 저장
+    window.addEventListener('load', function() {
+        localStorage.setItem('visitedMain', 'true');
+    });
+
+    // 로그아웃 버튼 클릭 시
+    document.getElementById('logout-button').addEventListener('click', function() {
+        localStorage.removeItem('visitedMain');
+        window.location.href = 'index.html';
+    });
+
+    // 검색 기능
+    document.getElementById('search-button').addEventListener('click', function() {
+        searchProducts();
+    });
+
+    document.getElementById('search').addEventListener('keypress', function(event) {
+        if (event.key === 'Enter') {
+            searchProducts();
+        }
+    });
+
+    function searchProducts() {
+        const query = document.getElementById('search').value.trim().toLowerCase(); // 입력값 앞뒤 공백 제거 및 소문자로 변환
+        const products = document.querySelectorAll('.product');
+
+        products.forEach(product => {
+            const productName = product.querySelector('.product-info h3').textContent.trim().toLowerCase(); // 제품 이름 앞뒤 공백 제거 및 소문자로 변환
+            if (productName.includes(query)) {
+                product.style.display = 'block'; // 검색어가 포함된 제품은 보이기
+            } else {
+                product.style.display = 'none'; // 검색어가 포함되지 않은 제품은 숨기기
+            }
+        });
+    }
+    
+</script>
+</body>
+</html>
+

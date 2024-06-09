@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>주문 결제</title>
+    <link rel="stylesheet" href="styles.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            padding-left: 20px;
+            padding-right: 20px;
+        }
+
+        h1 {
+            text-align: left;
+        }
+
+        .order-section {
+            margin-bottom: 20px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #ccc;
+        }
+
+        .order-section h2 {
+            margin-top: 0;
+        }
+
+        .order-item {
+            margin-bottom: 10px;
+        }
+
+        .payment-form {
+            margin-top: 20px;
+        }
+
+        .payment-form label {
+            display: block;
+            margin-bottom: 5px;
+        }
+
+        .payment-form input[type="text"],
+        .payment-form select {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        .payment-form select {
+            width: 100%;
+        }
+
+        .payment-form textarea {
+            width: calc(100% - 20px);
+            padding: 10px;
+            margin-bottom: 10px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+            resize: vertical;
+        }
+
+        .payment-button {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 0;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            width: 100%;
+        }
+
+        .payment-button:hover {
+            background-color: #555;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 10px 20px;
+            text-align: center;
+            margin-top: 20px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <h1>주문 결제</h1>
+    </header>
+
+    <div class="container">
+        <!-- 주문 내역 섹션 -->
+        <div class="order-section">
+            <h2>주문 내역</h2>
+            <div class="order-item">제품 1 - ₩50,000</div>
+            <div class="order-item">제품 2 - ₩70,000</div>
+            <div class="order-item">제품 3 - ₩30,000</div>
+            <!-- 주문 제품 목록 -->
+        </div>
+
+        <!-- 결제 정보 섹션 -->
+        <div class="payment-form">
+            <label for="name">주문자 이름</label>
+            <input type="text" id="name" name="name">
+
+            <label for="address">배송지</label>
+            <input type="text" id="address" name="address">
+
+            <label for="request">기타 요청사항</label>
+            <textarea id="request" name="request" rows="4"></textarea>
+
+            <label for="payment-method">결제 방법</label>
+            <select id="payment-method" name="payment-method">
+                <option value="credit-card">신용카드</option>
+                <option value="bank-transfer">계좌 이체</option>
+                <option value="paypal">페이팔</option>
+            </select>
+
+            <button class="payment-button" onclick="completePayment()">결제하기</button>
+        </div>
+    </div>
+
+    <footer>
+        <p>&copy; 2024 멍냥스토어</p>
+    </footer>
+
+    <script>
+        function completePayment() {
+            alert('결제가 완료되었습니다.');
+            window.location.href = 'main.html';
+        }
+    </script>
+</body>
+</html>

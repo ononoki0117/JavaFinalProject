@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<body>
+<header th:fragment="header(isLogin)">
+    <div id="store-name-container">
+        <a href="/" id="store-name">멍냥스토어</a>
+    </div>
+    <div id="user-actions">
+        <a href="/signup" th:if="${isLogin != true}">회원가입</a>
+        <a href="/login" th:if="${isLogin != true}">로그인</a>
+        <a href="/logout" th:if="${isLogin == true}">로그아웃</a>
+        <input type="text" id="search" placeholder="검색">
+        <button id="search-button">검색</button>
+    </div>
+</header>
+</body>
+
+</html>

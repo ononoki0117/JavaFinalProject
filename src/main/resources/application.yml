@@ -1,0 +1,8 @@
+spring:
+  application:
+    name: finalProject
+
+  data:
+    mongodb:
+      uri: mongodb+srv://ononoki0117:Kuro11350@finalproject.no9i360.mongodb.net/data?retryWrites=true&w=majority&appName=FinalProject
+

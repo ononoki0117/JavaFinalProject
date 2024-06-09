@@ -1,0 +1,133 @@
+/* styles.css */
+
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    min-height: 100vh; /* 화면 전체 높이를 차지합니다. */
+    display: flex;
+    flex-direction: column; /* 세로 방향으로 컨텐츠를 정렬합니다. */
+}
+
+header {
+    background-color: #333;
+    color: #fff;
+    padding: 1rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+    z-index: 1000; /* 다른 요소 위에 헤더가 나타나도록 설정 */
+    margin-bottom: 20px; /* 제품 사진과의 간격을 위해 여유 공간 추가 */
+}
+
+
+#store-name {
+    margin: 0;
+    font-size: 24px; /* 더 큰 글꼴 크기 */
+    color: #fff; /* 텍스트 색상을 흰색으로 설정 */
+    text-decoration: none; /* 밑줄 제거 */
+    font-weight: bold; /* 볼드체로 설정 */
+}
+
+#user-actions {
+    display: flex;
+    align-items: center;
+}
+
+#user-actions a {
+    color: #fff;
+    margin-right: 10px;
+    text-decoration: none;
+}
+
+#search-container {
+    display: flex;
+    align-items: center;
+}
+
+#search {
+    padding: 10px;
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-right: 10px;
+    height: 10px; /* 세로 높이 설정 */
+}
+
+#search-button {
+    background-color: #222;
+    color: #fff;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    height: 36px; /* 세로 높이 설정 */
+}
+
+#search-btn:hover {
+    background-color: #23721f; /* 마우스 호버 시 색상 변경 */
+}
+
+section {
+    padding: 2rem;
+    flex-grow: 1; /* 나머지 영역을 확장하여 차지합니다. */
+}
+
+.product-column {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between; /* 각 제품 간의 간격을 고르게 배분합니다. */
+    margin: -10px; /* 제품 간의 간격 조정 */
+}
+
+.product {
+    display: flex;
+    align-items: center;
+    margin-bottom: 100px;
+}
+
+.product img {
+    max-width: 300px;
+    max-height: 300px;
+    margin-right: 20px;
+    border-radius: 10px;
+}
+
+.product-info {
+    display: flex;
+    flex-direction: column;
+}
+
+.product-info h3 {
+    margin-bottom: 5px; /* 제품명과 가격 사이의 간격 조정 */
+}
+
+.product-info p {
+    margin: 0;
+}
+
+.product h3, .product .price {
+    color: #000; /* 텍스트 색상을 검정으로 설정 */
+    text-decoration: none; /* 밑줄 제거 */
+}
+
+@media (max-width: 768px) {
+    .product {
+        width: calc(50% - 20px); /* 화면이 작아질 때 2개씩 배치됩니다. */
+    }
+}
+
+@media (max-width: 480px) {
+    .product {
+        width: calc(100% - 20px); /* 화면이 매우 작아질 때 1개씩 배치됩니다. */
+    }
+}
+
+footer {
+    background-color: #333;
+    color: #fff;
+    text-align: center;
+    padding: 1rem;
+    margin-top: auto; /* 자신의 위치를 아래로 밀어내어 화면 바닥에 붙입니다. */
+}
