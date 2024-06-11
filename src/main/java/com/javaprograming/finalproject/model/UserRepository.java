@@ -1,7 +1,9 @@
 package com.javaprograming.finalproject.model;
 
-import org.springframework.data.mongodb.repository.MongoRepository;
+import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface UserRepository extends MongoRepository<UserModel, String> {
-    UserModel findByLoginId(String loginId);
+import java.util.Optional;
+
+public interface UserRepository extends JpaRepository<UserModel, String> {
+    Optional<UserModel> findByUsername(String username);
 }
