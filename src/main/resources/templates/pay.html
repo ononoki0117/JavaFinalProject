@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>주문 결제</title>
-    <link rel="stylesheet" href="styles.css">
+    <th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
     <style>
         body {
             font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
@@ -141,9 +141,7 @@
         </div>
     </div>
 
-    <footer>
-        <p>&copy; 2024 멍냥스토어</p>
-    </footer>
+    <th:block th:replace="~{layouts/footer :: footer}"></th:block>
 
     <script>
         function completePayment() {

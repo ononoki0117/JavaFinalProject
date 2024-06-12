@@ -1,6 +1,6 @@
 package com.javaprograming.finalproject.models;
 
-import jakarta.validation.constraints.Email;
+import com.mongodb.lang.Nullable;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
 import lombok.Getter;
@@ -25,12 +25,19 @@ public class User {
 
     @NotBlank
     @Size(max = 50)
-    @Email
-    private String email;
+    private String address;
+
+    @NotBlank
+    @Size(max = 20)
+    private String name;
 
     @NotBlank
     @Size(max = 120)
     private String password;
+
+    @NotBlank
+    @Size(max = 20)
+    private String phone;
 
     @DBRef
     private Set<Role> roles = new HashSet<>();
@@ -38,9 +45,11 @@ public class User {
     public User() {
     }
 
-    public User(String username, String email, String password) {
+    public User(String username, String address, String password, String phone, String name) {
         this.username = username;
-        this.email = email;
+        this.address = address;
         this.password = password;
+        this.phone = phone;
+        this.name = name;
     }
 }

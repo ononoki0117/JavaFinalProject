@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>멍냥스토어</title>
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <style>
         #pet-info {
             text-align: center;
@@ -51,61 +51,27 @@
     </style>
 </head>
 <body>
-    <header>
-        <div id="store-name-container">
-            <a href="main.html" id="store-name">멍냥스토어</a>
-        </div>
-        <div id="user-actions">
-            <a href="index.html" id="logout-button">로그아웃</a>
-            <input type="text" id="search" placeholder="검색">
-            <button id="search-button">검색</button>
-        </div>
-    </header>
-    
-    <section id="products">
+<th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
+
+
+<section id="products">
         <div class="product-column">
-            <a href="product1.html" class="product" data-name="강아지용 쿠션 침대">
-                <img src="images/product1.jpg" alt="제품 1">
-                <div class="product-info">
-                    <h3>강아지용 쿠션 침대</h3>
-                    <p class="price">가격: 30,000원</p>
-                </div>
-            </a>
-            <a href="product2.html" class="product" data-name="고양이 츄르 그릇">
-                <img src="images/product2.jpg" alt="제품 2">
-                <div class="product-info">
-                    <h3>고양이 츄르 그릇</h3>
-                    <p class="price">가격: 20,000원</p>
-                </div>
-            </a>
-            <a href="product3.html" class="product" data-name="강아지 장난감">
-                <img src="images/product3.jpg" alt="제품 3">
-                <div class="product-info">
-                    <h3>강아지 장난감</h3>
-                    <p class="price">가격: 15,000원</p>
-                </div>
-            </a>
-            <a href="product4.html" class="product" data-name="고양이 캣타워">
-                <img src="images/product4.jpg" alt="제품 4">
-                <div class="product-info">
-                    <h3>고양이 캣타워</h3>
-                    <p class="price">가격: 50,000원</p>
-                </div>
-            </a>
-            <a href="product5.html" class="product" data-name="강아지 간식">
-                <img src="images/product5.jpg" alt="제품 5">
-                <div class="product-info">
-                    <h3>강아지 간식</h3>
-                    <p class="price">가격: 10,000원</p>
-                </div>
-            </a>
+            <div th:each="product : ${products}">
+                <a th:href="${product.link}" class="product" th:data-name="${product.name}">
+                    <img th:src="${product.image}" alt="제품">
+                    <div class="product-info">
+                        <h3 th:text="${product.name}"></h3>
+                        <p class="price" th:text="${product.price}">가격: 30,000원</p>
+                    </div>
+                </a>
+            </div>
         </div>
     </section>
 
     <section id="pet-info">
         <div class="pet-details">
             <h2>반려동물 정보</h2>
-            <img src="images/pet.jpg" alt="반려동물 사진">
+            <img src="/images/pet.jpg" alt="반려동물 사진">
             <p>이름: 멍멍이</p>
             <p>나이: 3살</p>
             <p>성별: 수컷</p>
@@ -115,29 +81,12 @@
         </div>
     </section>
 
-    <footer>
-        <p>&copy; 2024 멍냥스토어</p>
-    </footer>
+<th:block th:replace="~{layouts/footer :: footer}"></th:block>
+
 </body>
 </html>
 
 <script>
-
-    document.getElementById('edit-profile-button').addEventListener('click', function() {
-        window.location.href = 'profile.html';
-    });    
-
-
-    // 페이지 로드 시 localStorage에 방문 여부 저장
-    window.addEventListener('load', function() {
-        localStorage.setItem('visitedMain', 'true');
-    });
-
-    // 로그아웃 버튼 클릭 시
-    document.getElementById('logout-button').addEventListener('click', function() {
-        localStorage.removeItem('visitedMain');
-        window.location.href = 'index.html';
-    });
 
     // 검색 기능
     document.getElementById('search-button').addEventListener('click', function() {

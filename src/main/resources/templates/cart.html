@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>장바구니</title>
     <!-- CSS 파일 링크 -->
-    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="/css/styles.css">
     <style>
         /* 추가된 CSS */
         #cart {
@@ -62,15 +62,8 @@
 </head>
 <body>
     <!-- 헤더 부분 -->
-    <header>
-        <div id="store-name-container">
-            <a href="index.html" id="store-name">멍냥스토어</a>
-        </div>
-        <div id="user-actions">
-            <!-- 로그아웃 링크 -->
-            <a href="logout.html">로그아웃</a>
-        </div>
-    </header>
+    <th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
+
 
     <!-- 장바구니 내용 부분 -->
     <section id="cart">
@@ -106,9 +99,8 @@
     </section>
 
     <!-- 푸터 부분 -->
-    <footer>
-        <p>&copy; 2024 멍냥스토어</p>
-    </footer>
+    <th:block th:replace="~{layouts/footer :: footer}"></th:block>
+
 
     <!-- JavaScript 코드 -->
     <script>

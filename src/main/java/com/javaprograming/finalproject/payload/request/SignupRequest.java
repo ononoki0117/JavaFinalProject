@@ -1,13 +1,18 @@
 package com.javaprograming.finalproject.payload.request;
 
+import com.mongodb.lang.Nullable;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Size;
+import lombok.Builder;
 import lombok.Getter;
+import lombok.Setter;
 
 import java.util.Set;
 
 @Getter
+@Setter
+@Builder
 public class SignupRequest {
     @NotBlank
     @Size(min = 3, max = 20)
@@ -15,8 +20,11 @@ public class SignupRequest {
 
     @NotBlank
     @Size(max = 50)
-    @Email
-    private String email;
+    private String address;
+
+    @NotBlank
+    @Size(max = 20)
+    private String name;
 
     private Set<String> roles;
 
@@ -24,19 +32,7 @@ public class SignupRequest {
     @Size(min = 6, max = 40)
     private String password;
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public void setRole(Set<String> roles) {
-        this.roles = roles;
-    }
+    @Nullable
+    @Size(max = 20)
+    private String phone;
 }
