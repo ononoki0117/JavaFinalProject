@@ -11,3 +11,5 @@ javaprograming:
     jwtCookieName: ononoki
     jwtSecret: ======================BezKoder=Spring===========================
     jwtExpirationMs: 86400000
+server:
+  port: 10700
