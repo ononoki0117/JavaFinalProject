@@ -1,97 +1,123 @@
 package com.javaprograming.finalproject.controller;
 
-import com.javaprograming.finalproject.service.AuthService;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
+import jakarta.validation.Valid;
+import com.javaprograming.finalproject.models.ERole;
+import com.javaprograming.finalproject.models.Role;
+import com.javaprograming.finalproject.models.User;
+import com.javaprograming.finalproject.payload.request.LoginRequest;
+import com.javaprograming.finalproject.payload.request.SignupRequest;
+import com.javaprograming.finalproject.payload.response.MessageResponse;
+import com.javaprograming.finalproject.payload.response.UserInfoResponse;
+import com.javaprograming.finalproject.repository.RoleRepository;
+import com.javaprograming.finalproject.repository.UserRepository;
+import com.javaprograming.finalproject.security.jwt.JwtUtils;
+import com.javaprograming.finalproject.security.services.UserDetailsImpl;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
-import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.ResponseCookie;
+import org.springframework.http.ResponseEntity;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.web.bind.annotation.*;
 
-@Controller
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+import java.util.stream.Collectors;
+
+@CrossOrigin(origins = "*", maxAge = 3600)
+@RestController
+@RequestMapping("/api/auth")
 public class AuthController {
     @Autowired
-    private AuthService authService;
+    AuthenticationManager authenticationManager;
+
     @Autowired
-    private HttpServletRequest httpServletRequest;
+    UserRepository userRepository;
 
-    @GetMapping("/login")
-    public String getLogin(Model model) {
-        HttpSession session = httpServletRequest.getSession();
+    @Autowired
+    RoleRepository roleRepository;
 
-        if (session == null) {
-            model.addAttribute("login", false);
-        } else if (session.getAttribute("username") != null) {
-            model.addAttribute("login", true);
-        } else {
-            model.addAttribute("login", false);
-        }
-        return "login";
-    }
+    @Autowired
+    PasswordEncoder encoder;
 
-    @PostMapping("/login")
-    public String postLoginProcess(Model model, @RequestParam String username, @RequestParam String password) {
-        if (authService.findUser(username)) {
-            if (authService.authUser(username, password)) {
-                HttpSession session = httpServletRequest.getSession(true);
-                session.setAttribute("username", username);
+    @Autowired
+    JwtUtils jwtUtils;
 
-                return "redirect:/";
-            } else {
-                model.addAttribute("msg", "ID가 존재하지 않거나 비밀번호가 틀렸습니다!");
-                model.addAttribute("url", "/login");
-                return "message";
-            }
-        } else {
-            model.addAttribute("msg", "ID가 존재하지 않거나 비밀번호가 틀렸습니다!");
-            model.addAttribute("url", "/login");
-            return "message";
-        }
-    }
+    @PostMapping("/signin")
+    public ResponseEntity<?> authenticateUser(@Valid @RequestBody LoginRequest loginRequest) {
+        Authentication authentication = authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword()));
 
-    @GetMapping("/logout")
-    public String logout(Model model) {
-        HttpSession session = httpServletRequest.getSession(true);
-        session.invalidate();
-        return "index";
-    }
+        SecurityContextHolder.getContext().setAuthentication(authentication);
 
-    @GetMapping("/signup")
-    public String getSignup(Model model) {
+        UserDetailsImpl userDetails = (UserDetailsImpl) authentication.getPrincipal();
 
-        HttpSession session = httpServletRequest.getSession();
+        ResponseCookie jwtCookie = jwtUtils.generateJwtCookie(userDetails);
 
-        if (session == null) {
-            model.addAttribute("login", false);
-        } else if (session.getAttribute("username") != null) {
-            model.addAttribute("login", true);
-        } else {
-            model.addAttribute("login", false);
-        }
+        List<String> roles = userDetails.getAuthorities().stream()
+                .map(GrantedAuthority::getAuthority)
+                .collect(Collectors.toList());
 
-        return "signup";
+        return ResponseEntity.ok().header(HttpHeaders.SET_COOKIE, jwtCookie.toString())
+                .body(new UserInfoResponse(userDetails.getId(),
+                        userDetails.getUsername(),
+                        userDetails.getEmail(),
+                        roles));
     }
 
     @PostMapping("/signup")
-    public String postSignup(Model model,
-                             @RequestParam String username,
-                             @RequestParam String password,
-                             @RequestParam String name,
-                             @RequestParam String phone,
-                             @RequestParam String address) {
-        if (authService.findUser(username)) {
-            model.addAttribute("msg", "이미 가입된 아이디 입니다!");
-            model.addAttribute("url", "/signup");
-            return "message";
-        } else {
-            authService.saveUser(username, password, name, phone, address);
-            HttpSession session = httpServletRequest.getSession();
-            session.setAttribute("username", username);
-            model.addAttribute("msg", "회원 가입을 축하드립니다!");
-            model.addAttribute("url", "/");
-            return "message";
+    public ResponseEntity<?> registerUser(@Valid @RequestBody SignupRequest signUpRequest) {
+        if (userRepository.existsByUsername(signUpRequest.getUsername())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Username is already taken!"));
         }
+        if (userRepository.existsByEmail(signUpRequest.getEmail())) {
+            return ResponseEntity
+                    .badRequest()
+                    .body(new MessageResponse("Error: Email is already in use!"));
+        }
+        // Create new user's account
+        User user = new User(signUpRequest.getUsername(),
+                signUpRequest.getEmail(),
+                encoder.encode(signUpRequest.getPassword()));
+
+        Set<String> strRoles = signUpRequest.getRoles();
+        Set<Role> roles = new HashSet<>();
+
+        if (strRoles == null) {
+            Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                    .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+            roles.add(userRole);
+        } else {
+            strRoles.forEach(role -> {
+                switch (role) {
+                    case "admin":
+                        Role adminRole = roleRepository.findByName(ERole.ROLE_ADMIN)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(adminRole);
+
+                        break;
+                    case "mod":
+                        Role modRole = roleRepository.findByName(ERole.ROLE_MODERATOR)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(modRole);
+
+                        break;
+                    default:
+                        Role userRole = roleRepository.findByName(ERole.ROLE_USER)
+                                .orElseThrow(() -> new RuntimeException("Error: Role is not found."));
+                        roles.add(userRole);
+                }
+            });
+        }
+        user.setRoles(roles);
+        userRepository.save(user);
+
+        return ResponseEntity.ok(new MessageResponse("User registered successfully!"));
     }
 }

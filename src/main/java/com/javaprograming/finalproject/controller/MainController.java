@@ -7,12 +7,13 @@ import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@Controller
-public class IndexController {
+@RestController
+public class MainController {
     private final HttpServletRequest httpServletRequest;
 
-    public IndexController(HttpServletRequest httpServletRequest) {
+    public MainController(HttpServletRequest httpServletRequest) {
         this.httpServletRequest = httpServletRequest;
     }
 
@@ -37,9 +38,4 @@ public class IndexController {
         }
     }
 
-    @GetMapping("/test")
-    public String test(Model model) {
-        model.addAttribute("message", "Hello World");
-        return "test";
-    }
 }
