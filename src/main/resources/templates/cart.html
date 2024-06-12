@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -61,63 +61,50 @@
     </style>
 </head>
 <body>
-    <!-- 헤더 부분 -->
-    <th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
+<!-- 헤더 부분 -->
+<th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
 
 
-    <!-- 장바구니 내용 부분 -->
-    <section id="cart">
-        <!-- 장바구니에 담긴 제품들 목록 -->
+<!-- 장바구니 내용 부분 -->
+<section id="cart">
+    <!-- 장바구니에 담긴 제품들 목록 -->
+    <form method="post" action="/pay">
         <div class="cart-items">
             <!-- 제품 1 -->
-            <div class="cart-item">
-                <span class="item-name">강아지용 쿠션 침대</span>
-                <span class="item-price">₩50,000</span>
-            </div>
-            <!-- 제품 2 -->
-            <div class="cart-item">
-                <span class="item-name">고양이 츄르 그릇</span>
-                <span class="item-price">₩20,000</span>
-            </div>
-            <!-- 제품 3 -->
-            <div class="cart-item">
-                <span class="item-name">강아지 장난감</span>
-                <span class="item-price">₩15,000</span>
-            </div>
-            <!-- 제품 4 -->
-            <div class="cart-item">
-                <span class="item-name">고양이 캣타워</span>
-                <span class="item-price">₩50,000</span>
+            <div class="cart-item" th:each="item : ${items}">
+                <span class="item-name" th:text="${item.name}">강아지용 쿠션 침대</span>
+                <span class="item-price" th:text="${item.price}">₩50,000</span>
             </div>
         </div>
 
         <!-- 총 가격 -->
-        <div id="total-price">총 가격: <span id="total">₩0</span></div>
+        <div id="total-price">총 가격: <span id="total">₩<span th:text="${sum}"></span></span></div>
 
         <!-- 결제하기 버튼 -->
-        <a href="pay.html" id="checkout-button">결제하기</a>
-    </section>
+        <button type="submit" id="checkout-button">결제하기</button>
+    </form>
+</section>
 
-    <!-- 푸터 부분 -->
-    <th:block th:replace="~{layouts/footer :: footer}"></th:block>
+<!-- 푸터 부분 -->
+<th:block th:replace="~{layouts/footer :: footer}"></th:block>
 
 
-    <!-- JavaScript 코드 -->
-    <script>
-        // JavaScript를 사용하여 총 가격 계산
-        document.addEventListener('DOMContentLoaded', function() {
-            const itemPrices = document.querySelectorAll('.item-price');
-            let totalPrice = 0;
+<!-- JavaScript 코드 -->
+<!--<script>-->
+<!--    // JavaScript를 사용하여 총 가격 계산-->
+<!--    document.addEventListener('DOMContentLoaded', function () {-->
+<!--        const itemPrices = document.querySelectorAll('.item-price');-->
+<!--        let totalPrice = 0;-->
 
-            // 각 제품 가격을 가져와서 총 가격에 합산
-            itemPrices.forEach(function(item) {
-                const price = parseInt(item.textContent.slice(1).replace(',', '')); // 숫자로 변환
-                totalPrice += price;
-            });
+<!--        // 각 제품 가격을 가져와서 총 가격에 합산-->
+<!--        itemPrices.forEach(function (item) {-->
+<!--            const price = parseInt(item.textContent.slice(1).replace(',', '')); // 숫자로 변환-->
+<!--            totalPrice += price;-->
+<!--        });-->
 
-            // 총 가격을 HTML에 표시
-            document.getElementById('total').textContent = '₩' + totalPrice.toLocaleString(); // 통화 형식으로 변환하여 표시
-        });
-    </script>
+<!--        // 총 가격을 HTML에 표시-->
+<!--        document.getElementById('total').textContent = '₩' + totalPrice.toLocaleString(); // 통화 형식으로 변환하여 표시-->
+<!--    });-->
+<!--</script>-->
 </body>
 </html>

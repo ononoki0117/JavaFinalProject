@@ -1,13 +1,18 @@
 package com.javaprograming.finalproject.controller;
 
 import com.javaprograming.finalproject.models.ERole;
+import com.javaprograming.finalproject.models.Pet;
 import com.javaprograming.finalproject.models.Role;
+import com.javaprograming.finalproject.models.User;
 import com.javaprograming.finalproject.payload.request.LoginRequest;
 import com.javaprograming.finalproject.payload.request.SignupRequest;
+import com.javaprograming.finalproject.repository.PetRepository;
+import com.javaprograming.finalproject.repository.UserRepository;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
@@ -17,14 +22,22 @@ import org.springframework.web.client.HttpClientErrorException;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.HashSet;
+import java.util.Optional;
 import java.util.Set;
 
 @Controller
 @RequestMapping("/auth")
 public class SiteAuthController {
 
+    @Autowired
+    private PetRepository petRepository;
+
+    @Autowired
+    private UserRepository userRepository;
+
     private static final Logger log = LoggerFactory.getLogger(SiteAuthController.class);
     private final HttpServletRequest httpServletRequest;
+
     public SiteAuthController(HttpServletRequest httpServletRequest) {
         this.httpServletRequest = httpServletRequest;
     }
@@ -35,7 +48,7 @@ public class SiteAuthController {
     }
 
     @PostMapping("/signin")
-    public String signinSubmit(Model model, @ModelAttribute("username")String username, @ModelAttribute("password")String password) {
+    public String signinSubmit(Model model, @ModelAttribute("username") String username, @ModelAttribute("password") String password) {
         Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
         String url = "http://localhost:8080/api/auth/signin";
@@ -55,12 +68,11 @@ public class SiteAuthController {
         logger.info(response.getBody());
 
 
-        if(response.getStatusCode().is2xxSuccessful()){
+        if (response.getStatusCode().is2xxSuccessful()) {
             HttpSession session = httpServletRequest.getSession(true);
             session.setAttribute("userinfo", response.getBody());
             return "redirect:../";
-        }
-        else {
+        } else {
             model.addAttribute("msg", "Invalid username or password");
             model.addAttribute("url", "/login");
             return "redirect:../message";
@@ -77,7 +89,11 @@ public class SiteAuthController {
                                 @ModelAttribute("password") String password,
                                 @ModelAttribute("name") String name,
                                 @ModelAttribute("phone") String phone,
-                                @ModelAttribute("address") String address) {
+                                @ModelAttribute("address") String address,
+                                @ModelAttribute("pet-name") String petname,
+                                @ModelAttribute("age") int age,
+                                @ModelAttribute("gender") String gender,
+                                @ModelAttribute("breed") String breed) {
         Logger logger = LoggerFactory.getLogger(this.getClass().getSimpleName());
 
         logger.info(username + " " + password + " " + name + " " + phone + " " + address);
@@ -86,7 +102,7 @@ public class SiteAuthController {
 
         RestTemplate restTemplate = new RestTemplate();
 
-        Set<String > roles = new HashSet<>();
+        Set<String> roles = new HashSet<>();
         roles.add("user");
 
         SignupRequest signupRequest = SignupRequest.builder()
@@ -104,13 +120,17 @@ public class SiteAuthController {
 
         logger.info(response.getBody());
 
+        if (response.getStatusCode().is2xxSuccessful()) {
+            Optional<User> user = userRepository.findByUsername(username);
 
-        if(response.getStatusCode().is2xxSuccessful()){
+            Pet pet = new Pet(petname, age, gender, breed, user.get());
+
+            petRepository.save(pet);
+
             model.addAttribute("msg", "회원 가입을 축하드립니다 ");
             model.addAttribute("url", "../auth/signin");
             return "message";
-        }
-        else{
+        } else {
             model.addAttribute("msg", "........");
             model.addAttribute("url", "../auth/signup");
             return "message";
@@ -120,8 +140,7 @@ public class SiteAuthController {
     @GetMapping("/signout")
     public String signout(Model model) {
         HttpSession session = httpServletRequest.getSession(false);
-        session.invalidate();
-
+        session.removeAttribute("userinfo");
         return "redirect:../";
     }
 

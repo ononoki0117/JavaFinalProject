@@ -1,0 +1,248 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>제품 상세 페이지</title>
+    <link rel="stylesheet" href="/css/styles.css">
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f8f8f8;
+        }
+
+        header {
+            background-color: #333;
+            color: #fff;
+            padding: 1rem;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1); /* 그림자 효과 추가 */
+            z-index: 1000; /* 다른 요소 위에 헤더가 나타나도록 설정 */
+            position: fixed; /* 고정 위치 설정 */
+            top: 0; /* 화면 상단에 위치 */
+            width: 100%; /* 화면 전체 너비 차지 */
+        }
+
+        #store-name {
+            font-size: 24px;
+            margin: 0;
+            font-weight: bold; /* 볼드 처리 추가 */
+            color: #fff; /* 하얀색으로 텍스트 색상 지정 */
+            text-decoration: none; /* 밑줄 제거 */
+        }
+
+        #user-actions {
+            display: flex;
+            justify-content: flex-end;
+            align-items: center;
+            flex-shrink: 0; /* 헤더 너비를 벗어나지 않도록 설정 */
+        }
+
+        #user-actions a {
+            color: #fff;
+            margin-right: 10px;
+            text-decoration: none;
+        }
+
+        #search {
+            padding: 10px;
+            border-radius: 10px;
+            border: 1px solid #ccc;
+            margin-right: 10px;
+            height: 10px; /* 세로 높이 설정 */
+        }
+
+        #search-button {
+            background-color: #222;
+            color: #fff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            height: 36px; /* 세로 높이 설정 */
+        }
+
+        section {
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            margin: 20px;
+            display: flex;
+            flex-direction: column;
+            margin-top: 80px; /* 헤더 높이 만큼 아래로 밀어줌 */
+        }
+
+        .product-detail {
+            display: flex;
+            align-items: flex-start;
+            justify-content: space-between;
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .product-info {
+            flex-grow: 1;
+            margin-right: 20px;
+            text-align: left;
+        }
+
+        .product-info img {
+            max-width: 400px; /* 이미지의 최대 너비를 설정 */
+            max-height: 400px; /* 이미지의 최대 높이를 설정 */
+            margin-bottom: 20px;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .product-info h2 {
+            font-size: 28px;
+            margin: 0;
+            color: #333;
+        }
+
+        .product-info .price {
+            font-size: 20px;
+            margin-bottom: 0; /* 수정된 부분 */
+            color: #333;
+        }
+
+        .product-actions {
+            align-self: flex-start;
+            margin-top: auto;
+            margin-bottom: 0; /* 수정된 부분 */
+        }
+
+        .product-actions button {
+            background-color: #333;
+            color: #fff;
+            padding: 15px 30px;
+            border: none;
+            border-radius: 10px;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+            margin-bottom: 20px; /* 수정된 부분 */
+        }
+
+        .product-actions button:hover {
+            background-color: #333;
+        }
+
+        .description,
+        .review {
+            margin-top: 100px;
+            color: #555;
+            line-height: 1.5;
+        }
+
+        footer {
+            background-color: #333;
+            color: #fff;
+            padding: 20px;
+            text-align: center;
+        }
+
+
+        .review {
+            margin-top: 20px;
+        }
+
+        .review-block {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+        }
+
+        .user-review {
+            width: 100%; /* 전체 너비를 차지하도록 설정 */
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            margin-bottom: 20px;
+        }
+
+
+        .user-review h4 {
+            margin-top: 0;
+        }
+
+        .dog-info {
+            margin-top: 10px;
+        }
+
+        .dog-info p {
+            margin: 0;
+        }
+
+        .buy-button,
+        .cart-button {
+            background-color: #333; /* 배경색 */
+            border: none; /* 테두리 없음 */
+            color: white; /* 글자색 */
+            padding: 15px 30px; /* 내부 여백 */
+            text-align: center; /* 가운데 정렬 */
+            text-decoration: none; /* 밑줄 없음 */
+            display: inline-block; /* 인라인 요소로 표시 */
+            font-size: 15px; /* 폰트 크기 */
+            margin: 4px 2px; /* 마진 설정 */
+            transition-duration: 0.4s; /* 호버 효과 전환 시간 */
+            cursor: pointer; /* 커서 모양 */
+            border-radius: 10px; /* 버튼 테두리 둥글게 */
+        }
+
+
+    </style>
+</head>
+<body>
+<th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
+
+
+<section id="product-details">
+    <div class="product-detail">
+        <div class="product-info">
+            <img th:src="${product.image}" alt="제품 사진">
+
+            <h2 th:text="${product.name}"></h2>
+            <div class="price">가격: ₩<span th:text="${product.price}"></span></div>
+        </div>
+    </div>
+    <div class="product-actions">
+        <button class="cart-button add-to-cart-button"
+                th:onclick="|location.href='@{/cart/add(id=${product.id})}'|"
+                th:data-name="${product.name}"
+                th:data-price="${product.price}">
+            장바구니
+        </button>
+        <a href="/cart/pay" class="buy-button">구매</a>
+    </div>
+    <div class="description">
+        <h3>제품 상세 설명</h3>
+        <p th:text="${product.description}"></p>
+    </div>
+    <div class="review">
+        <h3>리뷰</h3>
+        <div class="review-block" th:each="review : ${reviews}">
+            <div class="user-review">
+                <p th:text="review.content"></p>
+                <div class="dog-info">
+                    <p>나이: <span th:text="${review.age}"></span>kg</p>
+                    <p>성별: <span th:text="${review.gender}"></span></p>
+                    <p>종: <span th:text="${review.breed}"></span></p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</section>
+
+
+<th:block th:replace="~{layouts/footer :: footer}"></th:block>
+</body>
+</html>
+
+

@@ -14,6 +14,6 @@ public class ProductResponse extends Product {
         this.setDescription(product.getDescription());
         this.setPrice(product.getPrice());
         this.setImage(product.getImage());
-        this.link = "/products/" + product.getId();
+        this.link = "/product?id=" + product.getId();
     }
 }
