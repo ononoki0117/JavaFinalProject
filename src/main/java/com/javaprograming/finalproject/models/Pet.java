@@ -3,7 +3,6 @@ package com.javaprograming.finalproject.models;
 import lombok.Getter;
 import lombok.Setter;
 import org.springframework.data.annotation.Id;
-import org.springframework.data.mongodb.core.mapping.DBRef;
 import org.springframework.data.mongodb.core.mapping.Document;
 
 @Getter
@@ -21,13 +20,12 @@ public class Pet {
 
     private String breed;
 
-    @DBRef
-    private User owner;
+    private String owner;
 
     public Pet() {
     }
 
-    public Pet(String name, int age, String gender, String breed, User owner) {
+    public Pet(String name, int age, String gender, String breed, String owner) {
         this.name = name;
         this.age = age;
         this.gender = gender;

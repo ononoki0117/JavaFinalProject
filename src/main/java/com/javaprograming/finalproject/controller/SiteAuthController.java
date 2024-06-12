@@ -123,7 +123,7 @@ public class SiteAuthController {
         if (response.getStatusCode().is2xxSuccessful()) {
             Optional<User> user = userRepository.findByUsername(username);
 
-            Pet pet = new Pet(petname, age, gender, breed, user.get());
+            Pet pet = new Pet(petname, age, gender, breed, user.get().getId());
 
             petRepository.save(pet);
 

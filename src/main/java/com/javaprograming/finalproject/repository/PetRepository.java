@@ -8,5 +8,5 @@ import org.springframework.data.mongodb.repository.MongoRepository;
 import java.util.Optional;
 
 public interface PetRepository extends MongoRepository<Pet, String> {
-    Optional<Pet> findByOwner(User owner);
+    Optional<Pet> findByOwner(String owner);
 }

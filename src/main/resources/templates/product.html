@@ -218,7 +218,7 @@
                 th:data-price="${product.price}">
             장바구니
         </button>
-        <a href="/cart/pay" class="buy-button">구매</a>
+        <button class="buy-button" th:onclick="|location.href='@{/pay(id=${product.id})}'|">구매</button>
     </div>
     <div class="description">
         <h3>제품 상세 설명</h3>

@@ -111,9 +111,10 @@
 
 <div class="container">
     <!-- 주문 내역 섹션 -->
-    <div class="order-section" th:each="item : ${items}">
+    <div class="order-section">
         <h2>주문 내역</h2>
-        <div class="order-item"><span th:text="${item.name}">제품명</span> - ₩<span th:text="${item.price}"></span></div>
+        <div class="order-item" th:each="item : ${items}"><span th:text="${item.name}">제품명</span> - ₩<span
+                th:text="${item.price}"></span></div>
         <!-- 주문 제품 목록 -->
     </div>
 

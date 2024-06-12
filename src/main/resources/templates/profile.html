@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ko">
+<html xmlns:th="http://www.thymeleaf.org" lang="ko">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,63 +56,64 @@
     </style>
 </head>
 <body>
-    <!-- 헤더 추가 -->
-    <th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
+<!-- 헤더 추가 -->
+<th:block th:replace="~{layouts/header :: header(isLogin = ${login})}"></th:block>
 
-    <!-- 프로필 수정 폼 -->
+<!-- 프로필 수정 폼 -->
+<form method="post" action="/profile">
     <div id="profile-form">
         <h2>프로필 수정</h2>
-        <img src="images/pet.jpg" alt="반려동물 사진" id="pet-photo">
+        <img src="/images/pet.jpg" alt="반려동물 사진" id="pet-photo">
         <div>
             <label for="pet-name">이름</label>
-            <input type="text" id="pet-name" value="멍멍이">
+            <input type="text" id="pet-name" th:value="${pet.name}" name="name">
         </div>
         <div>
             <label for="pet-age">나이</label>
-            <input type="text" id="pet-age" value="3살">
+            <input type="number" id="pet-age" th:value="${pet.age}" name="age">
         </div>
         <div>
             <label for="pet-gender">성별</label>
-            <select id="pet-gender">
-                <option value="수컷" selected>수컷</option>
-                <option value="암컷">암컷</option>
+            <select id="pet-gender" name="gender">
+                <option value="male">수컷</option>
+                <option value="female">암컷</option>
             </select>
         </div>
-        <button id="save-button">저장하기</button>
+        <button id="save-button" type="submit">저장하기</button>
     </div>
 
-    <!-- 푸터 추가 -->
-    <footer>
-        <p>&copy; 2024 멍냥스토어</p>
-    </footer>
+</form>
 
-    <script>
-        // 저장 버튼 클릭 시
-        document.getElementById('save-button').addEventListener('click', function() {
-            const petName = document.getElementById('pet-name').value;
-            const petAge = document.getElementById('pet-age').value;
-            const petGender = document.getElementById('pet-gender').value;
+<!-- 푸터 추가 -->
+<th:block th:replace="~{layouts/footer :: footer}"></th:block>
 
-            localStorage.setItem('petName', petName);
-            localStorage.setItem('petAge', petAge);
-            localStorage.setItem('petGender', petGender);
 
-            alert('프로필이 저장되었습니다!');
-            window.location.href = 'main.html';
-        });
+<script>
+    // 저장 버튼 클릭 시
+    // document.getElementById('save-button').addEventListener('click', function () {
+    //     const petName = document.getElementById('pet-name').value;
+    //     const petAge = document.getElementById('pet-age').value;
+    //     const petGender = document.getElementById('pet-gender').value;
+    //
+    //     localStorage.setItem('petName', petName);
+    //     localStorage.setItem('petAge', petAge);
+    //     localStorage.setItem('petGender', petGender);
+    //
+    //     alert('프로필이 저장되었습니다!');
+    // });
 
-        // 로컬 스토리지에서 값 로드
-        window.addEventListener('load', function() {
-            if (localStorage.getItem('petName')) {
-                document.getElementById('pet-name').value = localStorage.getItem('petName');
-            }
-            if (localStorage.getItem('petAge')) {
-                document.getElementById('pet-age').value = localStorage.getItem('petAge');
-            }
-            if (localStorage.getItem('petGender')) {
-                document.getElementById('pet-gender').value = localStorage.getItem('petGender');
-            }
-        });
-    </script>
+    // // 로컬 스토리지에서 값 로드
+    // window.addEventListener('load', function () {
+    //     if (localStorage.getItem('petName')) {
+    //         document.getElementById('pet-name').value = localStorage.getItem('petName');
+    //     }
+    //     if (localStorage.getItem('petAge')) {
+    //         document.getElementById('pet-age').value = localStorage.getItem('petAge');
+    //     }
+    //     if (localStorage.getItem('petGender')) {
+    //         document.getElementById('pet-gender').value = localStorage.getItem('petGender');
+    //     }
+    // });
+</script>
 </body>
 </html>

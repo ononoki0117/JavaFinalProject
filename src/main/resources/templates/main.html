@@ -67,15 +67,15 @@
         </div>
     </section>
 
-    <section id="pet-info">
+    <section id="pet-info"  th:if="${login == true}">
         <div class="pet-details">
             <h2>반려동물 정보</h2>
             <img src="/images/pet.jpg" alt="반려동물 사진">
-            <p>이름: 멍멍이</p>
-            <p>나이: 3살</p>
-            <p>성별: 수컷</p>
+            <p>이름: <span th:text="${pet.name}">멍멍이</span></p>
+            <p>나이: <span th:text="${pet.age}">3</span>살</p>
+            <p>성별: <span th:text="${pet.gender}">수컷</span></p>
             <br> <!-- 줄 간격을 넓히는 빈 줄 삽입 -->
-            <a id="edit-profile-button" href="profile.html" style="text-decoration: none;">프로필 수정하기</a>
+            <a id="edit-profile-button" href="/profile" style="text-decoration: none;">프로필 수정하기</a>
 
         </div>
     </section>

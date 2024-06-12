@@ -42,4 +42,9 @@ public class UserInfoResponse {
     public List<String> getRoles() {
         return roles;
     }
+
+    public UserInfoResponse() {
+    }
+
+    ;
 }
