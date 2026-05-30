@@ -1,4 +1,4 @@
-# MungNyang Store
+# PawMart
 
 Spring Boot で構築した、ペット用品向けの EC Web アプリケーションです。  
 商品一覧の閲覧、カート追加、決済フロー、ログイン/会員登録、ペットプロフィール表示、レビュー確認機能を備えています。
@@ -81,4 +81,3 @@ http://localhost:10700
 ## ライセンス
 
 MIT License を採用しています。詳細は [LICENSE](./LICENSE) を参照してください。
-
